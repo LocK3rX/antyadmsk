@@ -78,6 +78,12 @@ on load:
 	broadcast "&8[&b?&8] "
 
 # Updater
+command /przeladuj:
+	trigger:
+		send "&8[&2&lX&8] &cExecute sk reload antyadm!"
+		execute console command "sk reload antyadm"
+		send "&8[&2&lX&8] &aExecuted sk reload antyadm!"
+
 command /aktualizuj [<text>]:
 	trigger:
 		send "&8[&2&lX&8] &7Last %{aadm::ostatnie}%"
