@@ -12,7 +12,6 @@ command /pomoc [<text>]:
 	trigger:
 		send "&8[&b?&8] "
 		send "&8[&b?&8] &c/aktualizuj &8- &7wykonaj manualna aktualizacje AAdm"
-		send "&8[&b?&8] &a/zmiennick &8- &7otrzymaj teczowy nick"
 		send "&8[&b?&8] &a/antyadm &8- &7aktywnosc AAdm"
 		send "&8[&b?&8] &a/msg &8- &7prywatna wiadomosc"
 		send "&8[&b?&8] &a/tpa &8- &7teleportuj sie do kogos"
@@ -52,11 +51,6 @@ command /msg [<player>] [<text>]:
 				send "&8[&c&l!&8] &cPodaj wiadomosc!"
 		else:
 			send "&8[&c&l!&8] &cNie mozesz wyslac wiadomosci do gracza offline!"
-
-# Kolorowy nick
-command /zmiennick [<text>] [<text>]:
-	trigger:
-		execute console command "nick %arg-1% %arg-2%"
 
 # Formatowanie czatu
 on chat:
