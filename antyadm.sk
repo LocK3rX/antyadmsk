@@ -54,10 +54,9 @@ command /msg [<player>] [<text>]:
 			send "&8[&c&l!&8] &cNie mozesz wyslac wiadomosci do gracza offline!"
 
 # Kolorowy nick
-command /zmiennick [<text>]:
+command /zmiennick [<text>] [<text>]:
 	trigger:
-		send "&8[&b?&8] &7Zmieniles sobie nick! %player% %arg 1%"
-		execute console command "nick %player% %arg 1%"
+		execute console command "nick %arg-1% %arg-2%"
 
 # Formatowanie czatu
 on chat:
