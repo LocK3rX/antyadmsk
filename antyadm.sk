@@ -1,5 +1,6 @@
 # AntyAdm Legacy
 # WERSJA Z UPD
+# UPDA2ASD
 
 # on join i quit
 on quit:
@@ -9,6 +10,7 @@ on join:
 
 # Fake Czat
 command /fake [<text>] [<text>]:
+	aliases: /fk
 	trigger:
 		if arg 1 is set:
 			if arg 2 is set:
