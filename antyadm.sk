@@ -57,7 +57,7 @@ command /msg [<player>] [<text>]:
 command /zmiennick [<text>]:
 	trigger:
 		send "&8[&b?&8] &7Zmieniles sobie nick!"
-		set player's display name to arg-1
+		set player's display name to %arg-1%
 
 # Formatowanie czatu
 on chat:
