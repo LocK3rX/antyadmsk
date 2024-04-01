@@ -56,22 +56,8 @@ command /msg [<player>] [<text>]:
 # Kolorowy nick
 command /zmiennick [<text>]:
 	trigger:
-		send "&8[&b?&8] &7Ustawiles sobie &at&5e&6c&2z&9o&3w&4y &7nick!"
-		set {_n} to "%the name of the player%"
-		set {_l} to length of {_n}
-		set {_s} to ""
-		loop {_l} times:
-			set {_i} to {_l} - (loop-number)
-			set {_i} to {_i} + 1
-			set {_k::%{_i}%} to last character of {_n}
-			set {_n} to {_i}-1 first characters of {_n}
-		loop {_l} times:
-			set {_r} to "&a&l" or "&b&l" or "&c&l" or "&d&l" or "&e&l" or "&3&l" or "&5&l" or "&6&l" or "&9&l"
-			set {_s::%loop-number%} to colored "%{_r}%%{_k::%loop-number%}%"
-			set {_s} to "%{_s}%%{_s::%loop-number%}%"
-		set {_d} to "%the name of the player%"
-		replace all "%the name of the player%" with {_s} in {_d}
-		set player's display name to {_d}
+		send "&8[&b?&8] &7Zmieniles sobie nick!"
+		set player's display name to arg-1
 
 # Formatowanie czatu
 on chat:
