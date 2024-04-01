@@ -7,6 +7,17 @@ on quit:
 on join:
 	set join message to "&8[&a+&8] &7%player%"
 
+# Fake Czat
+	command /fake [<text>] [<text>]:
+		trigger:
+			if arg 1 is set:
+				if arg 2 is set:
+					broadcast "&7%arg 1% &8» &7%arg 2%"
+				else:
+					send "&8[&c&l!&8] &cPodaj wiadomosc! /fake gracz wiado"
+			else:
+				send "&8[&c&l!&8] &cPodaj gracza! /fake gracz wiado"
+
 # Pomoc - dostepne komendy
 command /pomoc [<text>]:
 	trigger:
