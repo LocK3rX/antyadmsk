@@ -57,7 +57,7 @@ command /msg [<player>] [<text>]:
 command /zmiennick [<text>]:
 	trigger:
 		send "&8[&b?&8] &7Zmieniles sobie nick!"
-		execute console command "nick %arg 1% %player%"
+		execute console command "nick %player% %arg-1%"
 
 # Formatowanie czatu
 on chat:
