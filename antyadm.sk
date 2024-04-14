@@ -1,12 +1,10 @@
 # AntyAdm Legacy
 # Aktualizacja
-# 07042024
-# Usun te linijki przy kolejnym
-# wypuszczeniu aktualizacji
+# 14042024
 
 # GUI TEST 1 NOT THERE
 # DEL UPD
-# Generated 07 04 2024
+# Generated 14 04 2024
 # GitHub edition
 
 # xxxxxxxxxxx
@@ -92,7 +90,7 @@ on chat:
 # Funkcja On Load
 # Wiadomosci po zaladowaniu
 on load:
-	set {aadm::ostatnie} to 07042024
+	set {aadm::ostatnie} to 14042024
 	broadcast "&8[&b?&8] "
 	broadcast "&8[&b?&8] &aAntyADM &7zostal zaladowany!"
 	broadcast "&8[&b?&8] &7Data aktualizacji %{aadm::ostatnie}%"
@@ -174,7 +172,6 @@ command /fly [<text>]:
 command /i [<text>]:
 	trigger:
 		blokadaKomendy(player)
-
 # FUNKCJE NIE RUSZAC
 
 # Funkcja MSG blokadaKomendy
@@ -183,6 +180,18 @@ function blokadaKomendy(p: player):
 	play sound "block.anvil.place" to {_p}
 	
 # User Interface Guide
+function fSkript(p: player):
+	if {fly.%{_p}%} is not set:
+		send "&8[&5&lM&8] &aAktywowano ten tryb!" to {_p}
+		set {_p}'s flight mode to true
+		set {fly.%{_p}%} to true
+		stop
+	if {fly.%{_p}%} is set:
+		send "&8[&5&lM&8] &cDezaktywowano ten tryb!" to {_p}
+		set {_p}'s flight mode to false
+		delete {fly.%{_p}%}
+		stop
+
 function openITEMY(p: player):
 	set {_gui} to chest inventory with 3 rows named "&6Itemki"
 
@@ -217,6 +226,7 @@ function openGUI(p: player):
 
 	set slot (integers between 0 and 27) of {_gui} to magenta stained glass pane
 	set slot 10 of {_gui} to experience bottle named "&5Przyznaj Doswiadczenie" with lore "&7Otrzymaj 500 XP"
+	set slot 11 of {_gui} to feather named "&bLatanie" with lore "&7Wl Wyl Latanie"
 	set slot 12 of {_gui} to bedrock named "&6Itemki" with lore "&aWez sobie cos"
 	set slot 14 of {_gui} to barrier named "&4Dodaj permisje" with lore "&7Dodaje permisje gwiazdka"
 	set slot 16 of {_gui} to paper named "&4Zabierz permisje" with lore "&7Zabiera permisje gwiazdka"
@@ -251,3 +261,9 @@ on inventory click:
 	name of event-inventory is "&5Menu"
 	cancel event
 	event-inventory is not player's inventory
+
+on inventory click:
+	name of event-inventory is "&5Menu"
+	clicked slot is 11
+	fSkript(player)
+	cancel event
